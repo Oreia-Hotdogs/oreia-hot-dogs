@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minigame Oreia Hot Dogs</title>
+    <link rel="stylesheet" href="minigame.css">
+</head>
+<body>
+    <div id="game-area">
+        <div id="catcher" style="position: absolute; left: 50%; bottom: 10px; width: 50px; height: 50px; background-image: url('imagens/logo.jpg'); background-size: cover;"></div>
+    </div>
+    <div id="controls">
+        <button id="start-button">Começar</button>
+        <div id="score">Pontuação: 0</div>
+        <div id="timer">Tempo: 30</div>
+        <!-- Botões de controle -->
+        <button id="move-left">←</button>
+        <button id="move-right">→</button>
+    </div>
+
+    <!-- Botão de Sair -->
+    <div id="game-over">
+        <a href="index.html">
+            <button id="exit-button">Voltar</button>
+        </a>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

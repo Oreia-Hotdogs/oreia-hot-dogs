@@ -1,0 +1,108 @@
+/* Definindo o corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* Ocupa toda a altura da tela */
+    margin: 0;
+    background-color: black;  /* Definindo fundo preto */
+    overflow: hidden;  /* Impede que o conteúdo saia da tela */
+}
+
+/* Área do jogo */
+#game-area {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background-image: url('imagens/fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid black;
+    border-radius: 10px; /* Deixa as bordas da área do jogo arredondadas */
+}
+
+/* Personagem que pega os itens */
+#catcher {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Área de controles e botões */
+#controls {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 18px;
+    z-index: 1;
+}
+
+/* Estilos do botão de começar */
+#start-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ff6600;  /* Laranja */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Estilo de hover do botão */
+#start-button:hover {
+    background-color: #cc5200;  /* Laranja mais escuro */
+}
+
+/* Estilos do texto de pontuação e tempo */
+#score, #timer {
+    margin: 5px;
+}
+
+#score {
+    color: #ff6600;  /* Laranja */
+}
+
+#timer {
+    color: #ff6600;  /* Laranja */
+}
+
+/* Botões de movimento */
+#move-left, #move-right {
+    padding: 10px;
+    font-size: 24px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+}
+
+#move-left:hover, #move-right:hover {
+    background-color: #cc5200;
+}
+
+/* Botão de Sair */
+.sair {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sair:hover {
+    background-color: #ff1a1a;
+    transform: translateY(-5px);
+}
