@@ -18,10 +18,18 @@ let isMovingLeft = false;
 let isMovingRight = false;
 
 startButton.addEventListener('click', startGame);
+
+// Eventos de clique para os botões de movimento
 moveLeftButton.addEventListener('mousedown', () => isMovingLeft = true);
 moveLeftButton.addEventListener('mouseup', () => isMovingLeft = false);
 moveRightButton.addEventListener('mousedown', () => isMovingRight = true);
 moveRightButton.addEventListener('mouseup', () => isMovingRight = false);
+
+// Eventos de toque para os botões de movimento no celular
+moveLeftButton.addEventListener('touchstart', () => isMovingLeft = true);
+moveLeftButton.addEventListener('touchend', () => isMovingLeft = false);
+moveRightButton.addEventListener('touchstart', () => isMovingRight = true);
+moveRightButton.addEventListener('touchend', () => isMovingRight = false);
 
 function startGame() {
     score = 0;
