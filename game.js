@@ -10,26 +10,10 @@ const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
 const startButton = document.getElementById('start-button');
 
-// Botões de controle de movimento
-const moveLeftButton = document.getElementById('move-left');
-const moveRightButton = document.getElementById('move-right');
-
 let isMovingLeft = false;
 let isMovingRight = false;
 
 startButton.addEventListener('click', startGame);
-
-// Eventos de clique para os botões de movimento
-moveLeftButton.addEventListener('mousedown', () => isMovingLeft = true);
-moveLeftButton.addEventListener('mouseup', () => isMovingLeft = false);
-moveRightButton.addEventListener('mousedown', () => isMovingRight = true);
-moveRightButton.addEventListener('mouseup', () => isMovingRight = false);
-
-// Eventos de toque para os botões de movimento no celular
-moveLeftButton.addEventListener('touchstart', () => isMovingLeft = true);
-moveLeftButton.addEventListener('touchend', () => isMovingLeft = false);
-moveRightButton.addEventListener('touchstart', () => isMovingRight = true);
-moveRightButton.addEventListener('touchend', () => isMovingRight = false);
 
 function startGame() {
     score = 0;
@@ -37,13 +21,24 @@ function startGame() {
     fallingItems = [];
     scoreDisplay.textContent = `Pontuação: ${score}`;
     timerDisplay.textContent = `Tempo: ${timer}`;
-    gameArea.innerHTML = '';  // Limpa quaisquer itens caindo
+    gameArea.innerHTML = '';  
     gameArea.appendChild(catcher);
     startButton.disabled = true;
 
     gameInterval = setInterval(gameLoop, 20);
     timerInterval = setInterval(updateTimer, 1000);
 }
+
+// Adiciona suporte ao giroscópio para mover o catcher inclinando o celular
+window.addEventListener('deviceorientation', (event) => {
+    let tilt = event.gamma; // Inclinação para os lados (-90 a 90)
+    
+    if (tilt < -5) {
+        moveCatcher('left');
+    } else if (tilt > 5) {
+        moveCatcher('right');
+    }
+});
 
 function gameLoop() {
     if (timer <= 0) {
@@ -54,39 +49,27 @@ function gameLoop() {
         return;
     }
 
-    // Criar novos itens caindo em intervalos aleatórios
     if (Math.random() < 0.02) {
         createFallingItem();
     }
 
-    // Mover os itens caindo
     fallingItems.forEach(item => {
         item.style.top = parseInt(item.style.top) + 3 + 'px';
         if (parseInt(item.style.top) > gameArea.offsetHeight) {
             gameArea.removeChild(item);
             fallingItems = fallingItems.filter(fallingItem => fallingItem !== item);
-            score -= 5;  // Perde pontos ao deixar cair um item
+            score -= 5;
             scoreDisplay.textContent = `Pontuação: ${score}`;
-
-            // Chama a função de tremor da tela quando o item não for pego
             shakeScreen();
         }
-        // Verificar colisão com o catcher
+
         if (checkCollision(item, catcher)) {
             gameArea.removeChild(item);
             fallingItems = fallingItems.filter(fallingItem => fallingItem !== item);
-            score += 10;  // Ganha pontos ao pegar o item
+            score += 10;
             scoreDisplay.textContent = `Pontuação: ${score}`;
         }
     });
-
-    // Mover o catcher automaticamente se o botão estiver pressionado
-    if (isMovingLeft) {
-        moveCatcher('left');
-    }
-    if (isMovingRight) {
-        moveCatcher('right');
-    }
 }
 
 function updateTimer() {
@@ -101,12 +84,11 @@ function createFallingItem() {
     item.classList.add('falling-item');
     item.style.position = 'absolute';
     item.style.left = Math.random() * (gameArea.offsetWidth - 50) + 'px';
-    item.style.top = '-50px';  // Começa fora da tela
+    item.style.top = '-50px';  
     item.style.width = '50px';
     item.style.height = '50px';
     item.style.backgroundSize = 'cover';
     item.style.backgroundPosition = 'center';
-    // Usando as imagens da pasta 'imagens'
     item.style.backgroundImage = Math.random() < 0.5 ? "url('imagens/chuvadog.jpg')" : "url('imagens/chuvax.jpg')";
     
     gameArea.appendChild(item);
@@ -121,25 +103,23 @@ function checkCollision(item, catcher) {
              itemRect.right < catcherRect.left || itemRect.left > catcherRect.right);
 }
 
-// Função para causar o efeito de tremor na tela
 function shakeScreen() {
     let shakeCount = 0;
     const shakeInterval = setInterval(() => {
         if (shakeCount < 6) {
-            gameArea.style.transform = `translateX(${Math.random() * 20 - 10}px)`;  // Movimento aleatório horizontal
+            gameArea.style.transform = `translateX(${Math.random() * 20 - 10}px)`;
             shakeCount++;
         } else {
             clearInterval(shakeInterval);
-            gameArea.style.transform = 'translateX(0)';  // Restaura a posição original
+            gameArea.style.transform = 'translateX(0)';
         }
     }, 50);
 }
 
-// Movimento do catcher com os botões de celular
 function moveCatcher(direction) {
-    const catcherLeft = parseInt(catcher.style.left);
-    const moveAmount = 5;  // Ajuste a velocidade do movimento, diminuindo de 20px para 5px
-    
+    const catcherLeft = parseInt(catcher.style.left) || 0;
+    const moveAmount = 5;
+
     if (direction === 'left' && catcherLeft > 0) {
         catcher.style.left = catcherLeft - moveAmount + 'px';
     }
