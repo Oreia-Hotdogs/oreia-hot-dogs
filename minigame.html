@@ -8,15 +8,19 @@
 </head>
 <body>
     <div id="game-area">
-        <div id="catcher" style="position: absolute; left: 50%; bottom: 10px; width: 50px; height: 50px; background-image: url('imagens/logo.jpg'); background-size: cover;"></div>
+        <div id="catcher" style="position: absolute; left: 50%; bottom: 10px; width: 100px; height: 100px; background-image: url('imagens/personagem.png'); background-size: cover; background-color: transparent; transform: translateX(-50%);"></div>
     </div>
     <div id="controls">
         <button id="start-button">Começar</button>
         <div id="score">Pontuação: 0</div>
         <div id="timer">Tempo: 30</div>
-        <!-- Botões de controle -->
-        <button id="move-left">←</button>
-        <button id="move-right">→</button>
+    </div>
+
+    <!-- Campo para o nome do jogador -->
+    <div id="name-input" style="text-align: center;">
+        <label for="player-name">Digite seu nome: </label>
+        <input type="text" id="player-name" placeholder="Nome do Jogador">
+        <button id="submit-name">Iniciar</button>
     </div>
 
     <!-- Botão de Sair -->

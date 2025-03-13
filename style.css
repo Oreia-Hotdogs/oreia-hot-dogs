@@ -1,4 +1,4 @@
-body {
+bbody {
     background-color: #222;
     color: white;
     font-family: Arial, sans-serif;
@@ -13,23 +13,27 @@ body {
 .logo {
     position: absolute;
     top: 250px; /* Ajuste a distância do topo */
-    left: 48%;
+    left: 50%; /* Centraliza horizontalmente */
     transform: translateX(-50%);
     width: 500px; /* Tamanho da logo */
+    z-index: 0; /* Coloca a logo atrás do conteúdo */
 }
 
 .logo img {
     width: 100%;
     max-width: 250px; /* Ajuste o tamanho máximo */
     height: auto;
+    opacity: 0.5; /* Torna a imagem do logo transparente */
     filter: drop-shadow(0px 0px 10px rgba(255, 204, 0, 0.8)); /* Adiciona um brilho amarelo */
 }
 
 /* Container geral */
 .container {
+    position: relative;
     margin-top: 50px;
     padding: 20px;
     text-align: center;
+    z-index: 1; /* Garante que o conteúdo esteja acima do logo */
 }
 
 /* Títulos */
@@ -62,6 +66,7 @@ h1 {
     font-weight: bold;
     border-radius: 5px;
     transition: background 0.3s ease;
+    z-index: 2; /* Garante que os botões fiquem acima do logo */
 }
 
 .botao:hover {
