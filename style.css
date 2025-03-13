@@ -85,6 +85,31 @@ h1 {
     background-color: #ff3300;  /* Cor de hover */
 }
 
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .logo {
+        top: 100px; /* Ajuste a distância da logo no celular */
+        width: 350px; /* Diminui o tamanho da logo no celular */
+    }
+
+    .logo img {
+        max-width: 200px; /* Limita o tamanho máximo da logo */
+        opacity: 0.8; /* Menos opacidade no celular para tornar a logo mais visível */
+    }
+
+    .container {
+        margin-top: 30px; /* Ajuste para telas menores */
+    }
+
+    .botao {
+        padding: 15px 25px; /* Aumenta o tamanho dos botões para facilitar o clique em telas menores */
+        font-size: 18px; /* Aumenta o texto dos botões */
+    }
+
+    h1 {
+        font-size: 26px; /* Ajusta o tamanho do título */
+    }
+}
 /* Estilo da chuva */
 #chuva {
     position: fixed;
