@@ -1,33 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oreia Hot Dogs - Cardápio</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oreia Hot Dogs - Cardápio</title>
+  <link rel="stylesheet" href="style.css"/>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 </head>
 <body>
-    <div class="background-overlay"></div> <!-- Adiciona um overlay para destacar o conteúdo -->
-    
-    <div class="container">
-          <h1>Bem-vindo ao Oreia Hot Dogs</h1>
-        <p>Escolha uma categoria para ver o cardápio:</p>
-        <div class="menu">
-            <a href="hotdogs.html" class="botao">Hotdogs</a>
-            <a href="burgers.html" class="botao">Burgers</a>
-            <a href="adicionais.html" class="botao">Adicionais & Bebidas</a>
-        </div>
+  <!-- Script Firebase + Tema e Login -->
+  <script>
+    // Config do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4DxF2a1rfcfipfHVkEbQQYJ33Z5FeSCY",
+      authDomain: "oreia-score.firebaseapp.com",
+      databaseURL: "https://oreia-score-default-rtdb.firebaseio.com",
+      projectId: "oreia-score",
+      storageBucket: "oreia-score.firebasestorage.app",
+      messagingSenderId: "255273518318",
+      appId: "1:255273518318:web:b733536811797b6ecb5fff",
+      measurementId: "G-NP3CKZ55JK"
+    };
 
-        <!-- Botão da seção Sobre Nós -->
-        <a href="sobre.html" class="botao sobre-btn">Sobre Nós</a>
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-        <!-- Botão para o minigame -->
-        <a href="minigame.html" class="botao jogo-btn">Minigame do oreia!</a>
+    window.addEventListener("DOMContentLoaded", () => {
+      // Aplicar tema salvo
+      const cores = JSON.parse(localStorage.getItem("coresSite"));
+      if (cores) {
+        document.body.style.backgroundColor = cores.fundo;
+        document.body.style.color = cores.texto;
+        document.querySelectorAll(".botao").forEach(btn => {
+          btn.style.backgroundColor = cores.botao;
+          btn.style.color = cores.texto;
+        });
+      }
+
+      // Buscar anúncio do Firebase
+      const anuncioRef = db.ref("anuncio");
+      anuncioRef.once("value").then(snapshot => {
+        const anuncio = snapshot.val();
+        if (anuncio) {
+          alert("📢 Anúncio do Oreia:\n\n" + anuncio);
+        }
+      });
+    });
+
+    function loginAdmin() {
+      const senha = prompt("Digite a senha de administrador:");
+      if (senha === "oreia123") {
+        window.location.href = "painel.html";
+      } else {
+        alert("Senha incorreta!");
+      }
+    }
+  </script>
+
+  <!-- Fundo -->
+  <div class="background-overlay"></div>
+
+  <!-- Conteúdo -->
+  <div class="container">
+    <h1>Bem-vindo ao Oreia Hot Dogs</h1>
+    <p>Escolha uma categoria para ver o cardápio:</p>
+
+    <div class="linha-logo-botoes">
+      <img src="imagens/logo.png" alt="Logo Oreia" class="logo" />
+      <div class="menu">
+        <a href="hotdogs.html" class="botao">🌭 Hotdogs</a>
+        <a href="burgers.html" class="botao">🍔 Burgers</a>
+        <a href="adicionais.html" class="botao">🥤 Adicionais & Bebidas</a>
+        <a href="sobre.html" class="botao sobre-btn">📖 Sobre Nós</a>
+        <a href="minigame.html" class="botao jogo-btn">🎮 Minigame do Oreia!</a>
+        <button class="botao admin-btn" onclick="loginAdmin()">⚙️ Sou Administrador</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Área da chuva (opcional) -->
-    <div id="chuva"></div>
-
-    <script src="script.js"></script>
+  <!-- Chuva decorativa -->
+  <div id="chuva"></div>
+  <script src="script.js"></script>
 </body>
 </html>

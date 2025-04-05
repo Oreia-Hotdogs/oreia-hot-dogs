@@ -3,34 +3,15 @@ let timer = 30;
 let fallingItems = [];
 let gameInterval;
 let timerInterval;
-let playerName = "";  // Variável para armazenar o nome do jogador
 
 const catcher = document.getElementById('catcher');
 const gameArea = document.getElementById('game-area');
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
 const startButton = document.getElementById('start-button');
-const nameInputDiv = document.getElementById('name-input');
-const submitNameButton = document.getElementById('submit-name');
-const playerNameInput = document.getElementById('player-name');
 
 let isMovingLeft = false;
 let isMovingRight = false;
-
-submitNameButton.addEventListener('click', setPlayerName);
-
-function setPlayerName() {
-    playerName = playerNameInput.value.trim();  // Pega o nome do jogador
-
-    if (playerName === "") {
-        alert("Por favor, insira um nome válido.");
-        return;
-    }
-
-    // Esconde o campo de nome e exibe o botão de começar
-    nameInputDiv.style.display = "none";
-    startButton.style.display = "inline-block";
-}
 
 startButton.addEventListener('click', startGame);
 
@@ -65,8 +46,8 @@ function gameLoop() {
         clearInterval(timerInterval);
         alert(`Jogo acabou! Sua pontuação final foi: ${score}`);
         
-        // Salvar a pontuação no LocalStorage com o nome do jogador
-        salvarPontuacao(playerName, score);
+        // Salvar a pontuação no LocalStorage
+        salvarPontuacao('Jogador', score);  // Aqui pode modificar o nome do jogador
         exibirRanking();
 
         startButton.disabled = false;

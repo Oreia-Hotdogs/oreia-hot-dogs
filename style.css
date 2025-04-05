@@ -1,3 +1,4 @@
+/* Configuração geral do corpo */
 body {
     background-color: #222;
     color: white;
@@ -5,26 +6,41 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    background: url(".") no-repeat center center fixed;
-    background-size: cover; /* Cobre a tela toda, mas pode cortar partes da imagem */
+    background: url("imagens/fundo.jpg") no-repeat center center fixed;
+    background-size: cover;
+    transition: background 0.5s ease-in-out;
 }
 
-/* Logo */
+/* Overlay escuro no fundo */
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+}
+
+/* Logo central e de fundo */
 .logo {
     position: absolute;
-    top: 250px; /* Ajuste a distância do topo */
-    left: 50%; /* Centraliza horizontalmente */
+    top: 250px;
+    left: 50%;
     transform: translateX(-50%);
-    width: 500px; /* Tamanho da logo */
-    z-index: 0; /* Coloca a logo atrás do conteúdo */
+    max-width: 600px;
+    height: auto;
+    opacity: 0.1;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .logo img {
     width: 100%;
-    max-width: 250px; /* Ajuste o tamanho máximo */
+    max-width: 250px;
     height: auto;
-    opacity: 0.5; /* Torna a imagem do logo transparente */
-    filter: drop-shadow(0px 0px 10px rgba(255, 204, 0, 0.8)); /* Adiciona um brilho amarelo */
+    opacity: 0.5;
+    filter: drop-shadow(0px 0px 10px rgba(255, 204, 0, 0.8));
 }
 
 /* Container geral */
@@ -32,27 +48,13 @@ body {
     position: relative;
     margin-top: 50px;
     padding: 20px;
-    text-align: center;
-    z-index: 1; /* Garante que o conteúdo esteja acima do logo */
+    z-index: 2;
 }
 
 /* Títulos */
 h1 {
     font-size: 30px;
     color: #ffcc00;
-}
-
-/* Imagens do cardápio */
-.cardapio img {
-    width: 90%; /* A imagem ocupa 90% da tela */
-    max-width: 600px; /* Máximo de 600px */
-    border-radius: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cardapio img:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 0px 15px rgba(255, 204, 0, 0.7);
 }
 
 /* Botões */
@@ -66,101 +68,49 @@ h1 {
     font-weight: bold;
     border-radius: 5px;
     transition: background 0.3s ease;
-    z-index: 2; /* Garante que os botões fiquem acima do logo */
+    z-index: 2;
 }
 
 .botao:hover {
     background-color: #ff9900;
 }
 
-/* Estilo específico para o botão "Sobre Nós" */
+/* Botões específicos */
 .sobre-btn {
-    margin-top: 30px;  /* Distância maior */
-    background-color: #ff6600;  /* Cor diferente para destacar */
+    margin-top: 30px;
+    background-color: #ff6600;
     font-size: 20px;
     padding: 12px 25px;
 }
 
 .sobre-btn:hover {
-    background-color: #ff3300;  /* Cor de hover */
+    background-color: #ff3300;
 }
 
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-    .logo {
-        top: 100px; /* Ajuste a distância da logo no celular */
-        width: 350px; /* Diminui o tamanho da logo no celular */
-    }
-
-    .logo img {
-        max-width: 200px; /* Limita o tamanho máximo da logo */
-        opacity: 0.8; /* Menos opacidade no celular para tornar a logo mais visível */
-    }
-
-    .container {
-        margin-top: 30px; /* Ajuste para telas menores */
-    }
-
-    .botao {
-        padding: 15px 25px; /* Aumenta o tamanho dos botões para facilitar o clique em telas menores */
-        font-size: 18px; /* Aumenta o texto dos botões */
-    }
-
-    h1 {
-        font-size: 26px; /* Ajusta o tamanho do título */
-    }
-}
-/* Estilo da chuva */
-#chuva {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;  /* Impede que a chuva interfira nas interações do site */
-    overflow: hidden;  /* Impede a rolagem da tela */
-    z-index: -1;  /* Coloca a chuva atrás do conteúdo */
+.admin-btn {
+    background-color: #0099ff;
 }
 
-/* Personalização para quando houver chuva de itens caindo */
-#chuva img {
-    position: absolute;
-    width: 50px;
-    z-index: 9999;
-    opacity: 0.8;
-    animation: cair 5s linear infinite;
+.admin-btn:hover {
+    background-color: #0066cc;
 }
 
-/* Animação de queda das imagens */
-@keyframes cair {
-    0% {
-        transform: translateY(-100px) scale(0.5); /* Começa acima da tela */
-        opacity: 0.9;
-    }
-    100% {
-        transform: translateY(100vh) scale(0.7); /* Termina embaixo da tela */
-        opacity: 0.3; /* Diminuir a opacidade conforme vai caindo */
-    }
-}
-body {
-    background-color: #222;
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: url("imagens/fundo.jpg") no-repeat center center fixed;
-    background-size: cover;
+.sair-btn {
+    background-color: red;
+    float: right;
 }
 
-/* Overlay */
-.background-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: -1;
+/* Cardápio */
+.cardapio img {
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardapio img:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px rgba(255, 204, 0, 0.7);
 }
 
 /* Seção Sobre Nós */
@@ -174,7 +124,6 @@ body {
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.6);
 }
 
-/* Título da seção */
 .sobre-nos h2 {
     font-size: 36px;
     color: #ffcc00;
@@ -184,7 +133,6 @@ body {
     font-weight: bold;
 }
 
-/* Descrição da empresa */
 .sobre-nos .descricao {
     font-size: 18px;
     line-height: 1.8;
@@ -220,7 +168,6 @@ body {
 .ano p {
     font-size: 16px;
     color: white;
-    margin-bottom: 0;
 }
 
 .ano:hover {
@@ -228,7 +175,6 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Efeitos de hover */
 .ano:hover h3 {
     color: #ffcc00;
 }
@@ -251,7 +197,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* Botão de Voltar */
+/* Botão voltar */
 .voltar {
     background-color: #ff6600;
     color: white;
@@ -304,4 +250,101 @@ body {
 
 .img-antigo:hover {
     transform: scale(1.05);
+}
+
+/* Chuva de itens */
+#chuva {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#chuva img {
+    position: absolute;
+    width: 50px;
+    z-index: 9999;
+    opacity: 0.8;
+    animation: cair 5s linear infinite;
+}
+
+@keyframes cair {
+    0% {
+        transform: translateY(-100px) scale(0.5);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(100vh) scale(0.7);
+        opacity: 0.3;
+    }
+}
+
+/* Formulários e listas */
+textarea {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    resize: none;
+    margin-top: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: rgba(255, 255, 255, 0.1);
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+    border-radius: 5px;
+}
+
+/* Responsivo para celular */
+@media (max-width: 768px) {
+    .logo {
+        top: 100px;
+        width: 350px;
+    }
+
+    .logo img {
+        max-width: 200px;
+        opacity: 0.8;
+    }
+
+    .container {
+        margin-top: 30px;
+    }
+
+    .botao {
+        padding: 15px 25px;
+        font-size: 18px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .imagens-antigas {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .img-antigo {
+        width: 80%;
+    }
+
+    .timeline {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .ano {
+        width: 90%;
+    }
 }

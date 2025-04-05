@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Administrador - Oreia Hot Dogs</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      transition: all 0.3s ease;
+    }
+
+    .popup {
+      background: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      max-width: 350px;
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .cor-picker {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cor-picker label {
+      font-weight: bold;
+    }
+
+    .cor-picker input[type="color"] {
+      width: 60px;
+      height: 30px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .salvar-cores {
+      margin-top: 10px;
+    }
+
+    .background-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+
+    .chuva-item {
+      position: absolute;
+      top: -50px;
+      width: 30px;
+      animation-name: cair;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes cair {
+      0% { top: -50px; }
+      100% { top: 110%; }
+    }
+
+    .botao {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fundo com efeito -->
+  <div class="background-overlay"></div>
+
+  <div class="container painel-container">
+    <h1>Painel do Administrador</h1>
+    <p>Gerencie os anúncios e configurações do site.</p>
+
+    <!-- Botões do Painel -->
+    <div class="painel-opcoes">
+      <button class="botao" onclick="fazerAnuncio()">📝 Fazer Anúncio</button>
+      <button class="botao" onclick="removerAnuncio()">❌ Remover Anúncio</button>
+      <button class="botao" onclick="verHistorico()">📜 Ver Histórico de Anúncios</button>
+      <button class="botao" onclick="mostrarCores()">🎨 Personalizar Cores</button>
+      <button class="botao" onclick="voltar()">🔙 Voltar ao Site</button>
+    </div>
+
+    <!-- Seletor de Cores -->
+    <div id="paleta" class="popup" style="display:none;">
+      <h3>🎨 Personalizar Cores</h3>
+      <div class="cor-picker">
+        <label>Fundo:</label>
+        <input type="color" id="corFundo">
+      </div>
+      <div class="cor-picker">
+        <label>Texto:</label>
+        <input type="color" id="corTexto">
+      </div>
+      <div class="cor-picker">
+        <label>Botões:</label>
+        <input type="color" id="corBotao">
+      </div>
+      <button class="botao salvar-cores" onclick="salvarCores()">💾 Salvar Cores</button>
+      <button class="botao salvar-cores" onclick="redefinirCores()">🔄 Redefinir Cores</button>
+    </div>
+  </div>
+
+  <!-- Chuva visual decorativa -->
+  <div id="chuva"></div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+  <script>
+    // Configuração Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4DxF2a1rfcfipfHVkEbQQYJ33Z5FeSCY",
+      authDomain: "oreia-score.firebaseapp.com",
+      databaseURL: "https://oreia-score-default-rtdb.firebaseio.com",
+      projectId: "oreia-score",
+      storageBucket: "oreia-score.appspot.com", // corrigido aqui
+      messagingSenderId: "255273518318",
+      appId: "1:255273518318:web:b733536811797b6ecb5fff",
+      measurementId: "G-NP3CKZ55JK"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+  </script>
+
+  <!-- Scripts do Painel -->
+  <script>
+    const padraoCores = {
+      fundo: "#ffffff",
+      texto: "#000000",
+      botao: "#ff0000"
+    };
+
+    function aplicarCores(cores) {
+      document.body.style.backgroundColor = cores.fundo;
+      document.body.style.color = cores.texto;
+
+      document.querySelectorAll(".botao").forEach(botao => {
+        botao.style.backgroundColor = cores.botao;
+        botao.style.color = cores.texto;
+      });
+    }
+
+    function carregarCores() {
+      const cores = JSON.parse(localStorage.getItem("coresSite")) || padraoCores;
+      aplicarCores(cores);
+    }
+
+    function salvarCores() {
+      const fundo = document.getElementById("corFundo").value;
+      const texto = document.getElementById("corTexto").value;
+      const botao = document.getElementById("corBotao").value;
+
+      const cores = { fundo, texto, botao };
+      localStorage.setItem("coresSite", JSON.stringify(cores));
+      aplicarCores(cores);
+      alert("Cores salvas com sucesso!");
+    }
+
+    function mostrarCores() {
+      const cores = JSON.parse(localStorage.getItem("coresSite")) || padraoCores;
+      document.getElementById("paleta").style.display = "block";
+      document.getElementById("corFundo").value = cores.fundo;
+      document.getElementById("corTexto").value = cores.texto;
+      document.getElementById("corBotao").value = cores.botao;
+    }
+
+    function redefinirCores() {
+      localStorage.removeItem("coresSite");
+      aplicarCores(padraoCores);
+      alert("Cores redefinidas para o padrão!");
+    }
+
+    function fazerAnuncio() {
+      const anuncio = prompt("Digite o anúncio que deseja exibir:");
+      if (anuncio) {
+        // Salva no Firebase
+        database.ref("anuncioAtual").set({
+          texto: anuncio,
+          data: new Date().toLocaleString()
+        });
+
+        // Histórico
+        const historicoRef = database.ref("historicoAnuncios").push();
+        historicoRef.set({
+          texto: anuncio,
+          data: new Date().toLocaleString()
+        });
+
+        alert("Anúncio salvo no Firebase!");
+      }
+    }
+
+    function removerAnuncio() {
+      database.ref("anuncioAtual").remove();
+      alert("Anúncio removido.");
+    }
+
+    function verHistorico() {
+      database.ref("historicoAnuncios").once("value", (snapshot) => {
+        const historico = snapshot.val();
+        if (!historico) {
+          alert("Nenhum anúncio feito ainda.");
+          return;
+        }
+
+        let texto = "📜 Histórico de Anúncios:\n\n";
+        const chaves = Object.keys(historico);
+        chaves.forEach((chave, i) => {
+          const a = historico[chave];
+          texto += `${i + 1}. ${a.texto} (em ${a.data})\n`;
+        });
+
+        alert(texto);
+      });
+    }
+
+    function voltar() {
+      window.location.href = "index.html";
+    }
+
+    // Chuva visual
+    const chuva = document.getElementById("chuva");
+    for (let i = 0; i < 25; i++) {
+      const item = document.createElement("img");
+      item.src = "imagens/item.png";
+      item.classList.add("chuva-item");
+      item.style.left = Math.random() * 100 + "%";
+      item.style.animationDuration = 3 + Math.random() * 4 + "s";
+      chuva.appendChild(item);
+    }
+
+    carregarCores();
+  </script>
+</body>
+</html>
