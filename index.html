@@ -8,6 +8,53 @@
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <style>
+    /* Anúncio com estilo melhorado */
+    .anuncio {
+      display: none;
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #f5c6cb;
+      border-radius: 5px;
+      font-size: 1.2em;
+      font-weight: bold;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      animation: fadeIn 2s ease-out;
+    }
+
+    /* Animação para o anúncio aparecer */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .anuncio-button {
+      margin-top: 10px;
+      background-color: #d9534f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .anuncio-button:hover {
+      background-color: #c9302c;
+    }
+  </style>
 </head>
 <body>
   <!-- Script Firebase + Tema e Login -->
@@ -39,13 +86,24 @@
         });
       }
 
-      // Buscar anúncio do Firebase
-      const anuncioRef = db.ref("anuncio");
+      // Buscar anúncioAtual do Firebase
+      const anuncioRef = db.ref("anuncioAtual");
       anuncioRef.once("value").then(snapshot => {
         const anuncio = snapshot.val();
+        console.log("Anúncio Atual do Firebase:", anuncio); // Log para verificar o que foi retornado
+
         if (anuncio) {
-          alert("📢 Anúncio do Oreia:\n\n" + anuncio);
+          // Verifica se o anúncio é um objeto e extrai a informação correta
+          const textoAnuncio = anuncio.texto || "Sem anúncio disponível no momento."; // Supondo que o objeto tenha a chave 'texto'
+          // Exibir o anúncio na página
+          const anuncioElement = document.getElementById("anuncio");
+          anuncioElement.textContent = "📢 Anúncio do Oreia:\n\n" + textoAnuncio;
+          anuncioElement.style.display = "block"; // Torna o anúncio visível
+        } else {
+          console.log("Nenhum anúncio encontrado."); // Log se não encontrar o anúncio
         }
+      }).catch(error => {
+        console.error("Erro ao buscar anúncio:", error); // Log de erro se algo falhar
       });
     });
 
@@ -66,6 +124,9 @@
   <div class="container">
     <h1>Bem-vindo ao Oreia Hot Dogs</h1>
     <p>Escolha uma categoria para ver o cardápio:</p>
+
+    <!-- Anúncio com animação -->
+    <div id="anuncio" class="anuncio"></div>
 
     <div class="linha-logo-botoes">
       <img src="imagens/logo.png" alt="Logo Oreia" class="logo" />
