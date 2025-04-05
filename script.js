@@ -23,3 +23,13 @@ function configurarBotaoMinigame() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const botaoMinigame = document.querySelector(".jogo-btn");
+
+    if (botaoMinigame) {
+        botaoMinigame.addEventListener("click", function (e) {
+            e.preventDefault(); // Impede que vá para o link
+            alert("O minigame está em manutenção! Em breve estará disponível 🍔");
+        });
+    }
+});
